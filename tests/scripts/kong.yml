@@ -1,0 +1,13 @@
+_format_version: "1.1"
+services:
+- url: http://httpbin.org/anything
+  name: httpbin
+  routes:
+    - name: anything-route
+      paths:
+      - "/anything"
+  plugins:
+    - name: authChecker
+      config:
+        auth_server_url: http://localhost:3000/login
+        request_header_field_name: token
