@@ -1,0 +1,12 @@
+on: 
+  workflow_dispatch:
+  push:
+
+name: Run Integration Testing
+jobs:
+  render:
+    name: Run Integration Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@main
+      - run: bash tests/integration.sh
