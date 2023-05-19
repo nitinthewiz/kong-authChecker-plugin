@@ -1,9 +1,9 @@
-on: workflow_dispatch
+on: workflow_dispatch, push
 
 name: Run Unit Testing
 jobs:
   render:
-    name: Render video
+    name: Run Unit Test
     runs-on: ubuntu-latest
     strategy:
       matrix:
