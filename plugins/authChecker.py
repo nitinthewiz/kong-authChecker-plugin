@@ -4,8 +4,8 @@ Kong authentication check plugin
 
 # !/usr/bin/env python3
 import base64
-import requests
 import kong_pdk.pdk.kong as kong
+import requests
 
 Schema = (
     {"auth_server_url": {"type": "string"}},
@@ -87,8 +87,10 @@ class Plugin(object):
         else:
             return kong.response.exit(401, "Invalid authentication credentials")
 
-# add below section to allow this plugin optionally be running in a 
-# dedicated process
+
 if __name__ == "__main__":
+    """Add this section to allow this plugin optionally be running in a
+    dedicated process
+    """
     from kong_pdk.cli import start_dedicated_server
     start_dedicated_server("authChecker", Plugin, VERSION, PRIORITY, Schema)
