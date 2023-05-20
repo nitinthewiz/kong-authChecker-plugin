@@ -1,6 +1,8 @@
 docker build -f $(pwd)/tests/scripts/Dockerfile.test -t kong-py-test:0.1.0 .
 
-docker run -d --name kong-py-plugins-dbless \
+docker network create kong-net
+
+docker run -d --name kong-authChecker-plugin-dbless \
 --network=kong-net \
 --link kong-database:kong-database \
 --mount type=bind,source=$(pwd)/plugins,destination=/usr/local/kong/python/ \
@@ -28,6 +30,7 @@ docker run -d --name kong-py-plugins-dbless \
 echo "Sleeping for 10 seconds to ensure kong is up. Ideally, this should happen via a check on the Kong admin API or docker output."
 sleep 10
 
-python $(pwd)/tests/scripts/runIntegrationTest.py
+# python3 $(pwd)/tests/scripts/runIntegrationTest.py
 
-docker rm -f kong-py-plugins-dbless
+docker rm -f kong-authChecker-plugin-dbless
+docker network rm kong-net

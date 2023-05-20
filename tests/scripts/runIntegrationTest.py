@@ -4,7 +4,7 @@ import http.client
 
 class PluginTestCase(unittest.TestCase):
     def setUp(self):
-        self.conn = http.client.HTTPConnection("localhost:8003")
+        self.conn = http.client.HTTPConnection("localhost:8000")
         self.payload = ""
 
     def test_good_auth(self):

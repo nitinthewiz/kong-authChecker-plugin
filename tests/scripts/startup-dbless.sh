@@ -13,3 +13,5 @@ curl --request GET \
 curl -i --request GET \
   --url http://localhost:8000/anything \
   --header 'token: bWFpbEBuaXRpbmtoYW5uYS5jb206d3JvbmdQYXNzdzByZA=='
+
+python3 /kong/declarative/runIntegrationTest.py
