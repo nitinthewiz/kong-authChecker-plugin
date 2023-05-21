@@ -12,7 +12,7 @@ For all cases where the authentication server does not respond with a 200 OK, th
 #### Schema
 | Name | Usage | Default |
 | ------------- | ------------- | ------------- |
-| auth_server_url | This is the URL of the authentication server. The server should take an email and password as a payload and return a JWT. Tested with json-server and json-server-auth. | http://host.docker.internal:3000/login |
+| auth_server_url | This is the URL of the authentication server. The server should take an email and password as a payload and return a JWT. Tested with json-server and json-server-auth. | http://host.docker.internal:3000/login (this is because in manual testing, Kong is running in docker and json-server-auth is running externally. Ideally should be a remote URL) |
 | auth_server_response_body_field_name | This is the field in the body of the authentication server's successful response that would then be passed on to the upstream server as a JWT. | accessToken |
 | request_header_field_name | This is the header name that the user must include in their initial request to Kong. The format should be base64 encoded "email:password" | token |
 | upstream_request_header_field_name | This is the header name that will be included by the authChecker plugin in the upstream request, after succesful authentication from the authentication server. | token |
