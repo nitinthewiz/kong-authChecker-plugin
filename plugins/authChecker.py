@@ -12,7 +12,6 @@ Schema = (
     {"auth_server_response_body_field_name": {"type": "string"}},
     {"request_header_field_name": {"type": "string"}},
     {"upstream_request_header_field_name": {"type": "string"}},
-    {"ttl": {"type": "number"}},
 )
 
 VERSION = '0.1.0'
