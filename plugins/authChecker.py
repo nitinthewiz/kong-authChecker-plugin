@@ -20,7 +20,7 @@ PRIORITY = 0
 
 
 class Plugin(object):
-    """Default plugin class to start the plugin. Contains the access phase 
+    """Default plugin class to start the plugin. Contains the access phase
     where this plugin operates."""
     def __init__(self, config):
         self.config = config
@@ -37,8 +37,14 @@ class Plugin(object):
            recieved before passing on the request to the upstream server.
            - If at any point any of the steps fail, the plugin sends back
            a HTTP 401 status with "Invalid authentication credentials" message.
+           - This includes if the auth server responds with any non-200 status
+           code. We are expecting a perfect response from the auth server.
+           Everything else is bad. However, this should be extended to deal
+           with specific non-200 cases, like 301/302 redirects, 408 timeouts,
+           and 429 (too many requests).
         """
-        request_header_field_value = "user:pass"
+        request_header_field_value = ""
+        payload = {}
 
         request_header_field_name = "token"
         if 'request_header_field_name' in self.config:
@@ -56,13 +62,16 @@ class Plugin(object):
         if 'auth_server_url' in self.config:
             auth_server_url = self.config['auth_server_url']
 
-        payload_values = base64.b64decode(request_header_field_value).decode()
-        payload_values_split = payload_values.split(":")
+        try:
+            payload_values = base64.b64decode(request_header_field_value).decode()
+            payload_values_split = payload_values.split(":")
+            payload = {
+                "email": payload_values_split[0],
+                "password": payload_values_split[1]
+            }
+        except Exception:
+            return kong.response.exit(401, "Invalid authentication credentials")
 
-        payload = {
-            "email": payload_values_split[0],
-            "password": payload_values_split[1]
-        }
         headers = {"Content-Type": "application/json"}
 
         response = requests.request("POST", auth_server_url,

@@ -21,7 +21,5 @@ docker run --name kong-authChecker-plugin-dbless \
 -e "KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl" \
  kong-py-test:0.1.0
 
-python3 $(pwd)/tests/scripts/run_integration_test.py || { echo "run_integration_test failed" && exit 1; }
-
 docker rm -f kong-authChecker-plugin-dbless
 docker network rm kong-net

@@ -5,22 +5,27 @@ import unittest
 import http.client
 
 
-class PluginTestCase(unittest.TestCase):
+class AuthCheckerPluginIntegrationTestCase(unittest.TestCase):
     """Summary
 
     Attributes:
-        conn (TYPE): Description
-        payload (str): Description
+        conn (http.client.HTTPConnection): The HTTP connection to Kong.
+        payload (str): An empty payload, because we're only focused on
+                       headers for now.
     """
 
     def setUp(self):
-        """Summary
+        """Set up the test case by creating an HTTP connection to Kong
+           and initializing the payload to blank.
         """
         self.conn = http.client.HTTPConnection("localhost:8000")
         self.payload = ""
 
     def test_good_auth(self):
-        """Summary
+        """Test the authentication with valid credentials.
+
+        The test sends an HTTP GET request with a valid token header and asserts that the response
+        status code is 200 (OK).
         """
         headers = {'token': "bWFpbEBuaXRpbmtoYW5uYS5jb206YmVzdFBhc3N3MHJk"}
         self.conn.request("GET", "/anything", self.payload, headers)
@@ -29,7 +34,11 @@ class PluginTestCase(unittest.TestCase):
         self.assertTrue(res.status == 200)
 
     def test_bad_auth(self):
-        """Summary
+        """Test the authentication with invalid credentials.
+
+        The test sends an HTTP GET request with an invalid token header and asserts that the response
+        status code is between 400 (Bad Request) and 499 (Client Closed Request).
+        Currently, the bad response is hardcoded to 401 (Unauthorized).
         """
         headers = {'token': "bWFpbEBuaXRpbmtoYW5uYS5jb206d3JvbmdQYXNzdzByZA=="}
         self.conn.request("GET", "/anything", self.payload, headers)
