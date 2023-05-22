@@ -83,10 +83,9 @@ class AuthCheckerPluginUnitTestCase(unittest.TestCase):
         kong_mock.service.request.set_header.assert_called_with("token",
                                                                 "testtoken")
 
-
     @responses.activate
     def test_access_successful_long_header_value(self):
-        """Test the access method for successful authentication even 
+        """Test the access method for successful authentication even
         with a long header value."""
         kong_mock = MagicMock()
         kong_mock.request = MagicMock()
